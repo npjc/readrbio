@@ -3,6 +3,8 @@
 #' see \url{http://gmod.org/wiki/GFF3} for format details.
 #' Wraps \code{\link{read_tsv}} and guesses how many lines to skip.
 #'
+#' N.B. currently does not handle sequence section containing gff3s.
+#'
 #' @param file path to a file.
 #' @param col_names passed to \code{\link{read_tsv}}'s col_names
 #' @param col_types passed to \code{\link{read_tsv}}'s col_types

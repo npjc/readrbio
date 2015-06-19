@@ -25,6 +25,9 @@ read_gff3(file, col_names = c("seqid", "source", "type", "start", "end",
 see \url{http://gmod.org/wiki/GFF3} for format details.
 Wraps \code{\link{read_tsv}} and guesses how many lines to skip.
 }
+\details{
+N.B. currently does not handle sequence section containing gff3s.
+}
 \examples{
 \dontrun{
  tmp <- "data-raw/file.gff3.gz"
