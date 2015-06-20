@@ -21,8 +21,8 @@ read_gff3 <- function(file, col_names = c("seqid", "source", "type", "start",
                                           "end", "score", "strand", "phase",
                                           "attributes"),
                       col_types = "cccdddccc", na = '.', progress = FALSE, ...) {
-  skip <- get_first_line(file, delim = '\t') - 1
-  readr::read_tsv(file = file, skip = skip, col_names = col_names,
-                  col_types = col_types, progress = progress, na = na, ...)
+  rd <- infer_data_records(file, delim = '\t', n_fields = 9)
+  readr::read_tsv(file = file, skip = rd$skip, col_names = col_names,
+                  col_types = col_types, progress = progress, na = na,
+                  n_max = rd$n_max, ...)
 }
-

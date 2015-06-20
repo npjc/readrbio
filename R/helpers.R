@@ -1,10 +1,22 @@
-#' get first data line of file
-#' @param file path to a file.
-#' @param delim delimiter of data records in file. passes to: \code{\link{
-#' tokenizer_delim}}
+#' infer data records by expected fields
+#' @param file path to file
+#' @param delim delimiter of data records in file
+#' @param n_fields number of \code{delim} fields (cols) to expect
 #' @keywords internal
-get_first_line <- function(file, delim) {
-  tokenizer <- readr::tokenizer_delim(delim)
-  fields <- readr::count_fields(file, tokenizer)
-  which.max(fields)
+infer_data_records <- function(file, delim, n_fields) {
+  field_counts <- readr::count_fields(file, readr::tokenizer_delim(delim))
+  normn_fields <- n_fields - 1 # b/c of count_fields off-by-one-thinko
+  data_records <- which(field_counts == normn_fields)
+  translate_skip_n_max(data_records)
+}
+
+#' translate vector of data_records to skip and n_max params.
+#'
+#' Currently assumes a contiguous data records section
+#' @param data_records
+#' @keywords internal
+translate_skip_n_max <- function(data_records) {
+  skip <- min(data_records) - 1
+  n_max <- max(data_records) - skip
+  list(skip = skip, n_max = n_max)
 }
