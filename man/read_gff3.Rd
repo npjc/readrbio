@@ -26,7 +26,7 @@ see \url{http://gmod.org/wiki/GFF3} for format details.
 Wraps \code{\link{read_tsv}} and guesses how many lines to skip.
 }
 \details{
-N.B. currently does not handle sequence section containing gff3s.
+N.B. currently has limited support for FASTA section containing gff3s.
 }
 \examples{
 \dontrun{
