@@ -1,0 +1,40 @@
+---
+output: 
+  html_document:
+    keep_md: TRUE
+    variant: markdown_github
+---
+
+```{r readme-setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+`readrbio` is an R pkg that exposes some wrappers around [`readr`](https://github.com/hadley/readr) functions reading files common in biology (or at least the very small small subset that I work with most often).
+
+It currently exports `r length(grep("export", readLines("NAMESPACE"), value = T))` functions:
+
+```{r, echo = FALSE}
+exports <- grep("export", readLines("NAMESPACE"), value = T)
+unlist(lapply(strsplit(exports, "[(//)]"), `[`, 2))
+```
+
+- `ls_read()` reads in multiple .gff3 or .wig files into a list of dfs (via `read_gff3()` / `read_wig()`), adds a `file_name` variable (col) with the appropriate file name, and optionally binds all the dfs row-wise (via `dplyr::bind_rows`) to create one combined df that's easier to work with.
+```{r ls-read-eg}
+library(readrbio)
+p <- "./data-raw"
+ls_read(ptrn = ".gff3", path = p)
+ls_read(".gff3", p, bind_rows = F)
+```
+
+- `read_gff3()` and `read_wig()` are wrappers around `readr::read_*()` funs that have format-specific defaults and use the handy `infer_data_records()` to infer which rows are the data records based on expected number of fields. See `?infer_data_records`... it is semi-general...and might not work for you.
+
+```{r read-wig-eg}
+read_wig("data-raw/wiggle_bedtype.wig.gz")
+# read_gff3("data-raw/file.gff3.gz")
+```
+
+## Warning: Currently only bed-type wiggle files expected/supported!
