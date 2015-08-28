@@ -8,7 +8,7 @@
 ls_read <- function(pattern = c(".gff3",".wig"), path = ".", bind_rows = T) {
   # get all the files at that place
   files <- list.files(path, pattern)
-  file_paths <- normalizePath(paste0(path,files))
+  file_paths <- normalizePath(paste(path,files, sep = '/'))
   # pick fxn to read based on file extension
   readfun <- switch(pattern, ".gff3" = read_gff3, ".wig" = read_wig)
   # read in the files, each one into a list element
