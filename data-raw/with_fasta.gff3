@@ -1,0 +1,14 @@
+##gff-version 3
+ctg123	.	exon	1300	1500	.	+	.	ID=exon00001;Name=with_fasta
+ctg123	.	exon	1050	1500	.	+	.	ID=exon00002;Name=with_fasta
+ctg123	.	exon	3000	3902	.	+	.	ID=exon00003;Name=with_fasta
+ctg123	.	exon	5000	5500	.	+	.	ID=exon00004;Name=with_fasta
+ctg123	.	exon	7000	9000	.	+	.	ID=exon00005;Name=with_fasta
+##FASTA
+>ctg123
+cttctgggcgtacccgattctcggagaacttgccgcaccattccgccttg
+tgttcattgctgcctgcatgttcattgtctacctcggctacgtgtggcta
+tctttcctcggtgccctcgtgcacggagtcgagaaaccaaagaacaaaaa
+aagaaattaaaatatttattttgctgtggtttttgatgtgtgttttttat
+aatgatttttgatgtgaccaattgtacttttcctttaaatgaaatgtaat
+cttaaatgtatttccgacgaattcgaggcctgaaaagtgtgacgccattc
