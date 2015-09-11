@@ -1,6 +1,9 @@
 
 
 
+[![Travis-CI Build Status](https://travis-ci.org/npjc/readrbio.svg?branch=master)](https://travis-ci.org/npjc/readrbio)
+[![Coverage Status](https://coveralls.io/repos/npjc/readrbio/badge.svg)](https://coveralls.io/r/npjc/readrbio)
+
 ### readrbio
 
 `readrbio` is an R pkg that provides some wrappers around [`readr`](https://github.com/hadley/readr) for common file formats, such as the common biological formats `.gff3`, `.wig`, and `.bed` using a consistent extension mechanism.

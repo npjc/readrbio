@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 ```
 
 [![Travis-CI Build Status](https://travis-ci.org/npjc/readrbio.svg?branch=master)](https://travis-ci.org/npjc/readrbio)
-[![Coverage Status](https://img.shields.io/codecov/c/github/npjc/readrbio/master.svg)](https://codecov.io/github/npjc/readrbio?branch=master)
+[![Coverage Status](https://coveralls.io/repos/npjc/readrbio/badge.svg)](https://coveralls.io/r/npjc/readrbio)
 
 ### readrbio
 
