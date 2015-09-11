@@ -1,6 +1,6 @@
 #' read delimited file with using a named list of arguments.
 #'
-#' @inheritParams infer_skip
+#' @inheritParams infr_skip
 #' @keywords internal
 do_read <- function(.il) {
   stopifnot(is_input_list(.il))

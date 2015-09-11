@@ -22,7 +22,7 @@ read_wig <- function(file, type = "bed") {
   stopifnot(type == "bed")
   
   skel_wig(file) %>% 
-    infer_skip() %>% 
+    infr_skip() %>% 
     do_read()
 }
 

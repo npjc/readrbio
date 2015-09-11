@@ -6,7 +6,7 @@
 #' @param .il input_list. see \code{skel_*} functions.
 #' @param .n integer. infer using first \code{.n} lines.
 #' @keywords internal
-infer_skip <- function(.il, .n = 100L) {
+infr_skip <- function(.il, .n = 100L) {
   stopifnot(is_input_list(.il))
   cnts <- readr::count_fields(.il$file, .il$tokenizer, skip = 0L, n_max = .n)
   fields <- which(cnts == .il$n_fields)
@@ -30,7 +30,7 @@ infer_skip <- function(.il, .n = 100L) {
 #' @param tbl data.frame to pass in
 #' @param col the column to infer and mutate if necessary.
 #' @export
-infer_seqid <- function(tbl, col = NULL) {
+infr_seqid <- function(tbl, col = NULL) {
   col <- col %||% names(tbl)[1]
   dots <- setNames(list(
     lazyeval::interp(~gsub("chr", "", var), var = as.name(col))),

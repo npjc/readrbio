@@ -19,7 +19,7 @@
 #'  }
 read_gff3 <- function(file) {
   skel_gff3(file) %>% 
-    infer_skip() %>% 
+    infr_skip() %>% 
     do_read()
 }
 

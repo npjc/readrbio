@@ -21,7 +21,7 @@
 #'  }
 read_bed <- function(file, type = "bed6") {
   skel_bed(file, type) %>% 
-    infer_skip() %>% 
+    infr_skip() %>% 
     do_read()
 }
 
