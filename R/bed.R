@@ -34,50 +34,13 @@ read_bed <- function(file, type = "bed6") {
 #' @keywords internal
 skel_bed <- function(file, type) {
   # arbitraty switch
-  n_fields <- switch (type,
+  n_cols <- switch (type,
     bed3 = 3L,
     bed4 = 4L,
     bed6 = 6L,
     bed12 = 12L,
     stop("type not currently supported.")
   )
-  
-  col_names <- c("chrom", 
-                 "chromStart", 
-                 "chromEnd", 
-                 "name",
-                 "score",
-                 "strand",
-                 "thickStart",
-                 "thickEnd",
-                 "itemRgb",
-                 "blockCount",
-                 "blockSizes",
-                 "blockStarts")
-  col_types <- list(
-    readr::col_character(), 
-    readr::col_integer(), 
-    readr::col_integer(),
-    readr::col_character(),
-    readr::col_double(),
-    readr::col_character(),
-    readr::col_integer(),
-    readr::col_integer(),
-    readr::col_character(),
-    readr::col_integer(),
-    readr::col_character(),
-    readr::col_character())
-  
-  structure(
-    list(
-      file = file,
-      tokenizer = readr::tokenizer_delim('\t'),
-      col_names = col_names[1:n_fields],
-      col_types = col_types[1:n_fields],
-      locale = readr::default_locale(),
-      skip = 0L,
-      n_max = -1L,
-      progress = interactive(),
-      n_fields = n_fields),
-    class = "input_list")
+  spec <- spec_bed()[1:n_cols]
+  skeletonize(file, spec, readr::tokenizer_tsv())
 }

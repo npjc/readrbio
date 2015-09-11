@@ -31,26 +31,9 @@ read_wig <- function(file, type = "bed") {
 #' @return input_list: a named list of arguments relevant to read_* functions.
 #' @keywords internal
 skel_wig <- function(file, type) {
-  type <- switch (type,
-    bed = "bed",
+  spec <- switch (type,
+    bed = spec_wig_bed(),
     stop("type not currently supported."))
-  structure(
-    list(
-      file = file,
-      tokenizer = readr::tokenizer_delim(' '),
-      col_names = c("seqid", 
-                    "start", 
-                    "end", 
-                    "score"),
-      col_types = list(
-        readr::col_character(), 
-        readr::col_integer(), 
-        readr::col_integer(), 
-        readr::col_double()),
-      locale = readr::default_locale(),
-      skip = 0L,
-      n_max = -1L,
-      progress = interactive(),
-      n_fields = 4L),
-    class = "input_list")
+  
+  skeletonize(file, spec, readr::tokenizer_delim(' '))
 }
