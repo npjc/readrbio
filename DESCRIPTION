@@ -1,5 +1,5 @@
 Package: readrbio
-Title: Useful Wrappers For Reading Common File Formats.
+Title: Extend Readr With Useful Wrappers For Reading Common File Formats
 Version: 0.0.0.9000
 Description: Wrappers that extend readr and functions to infer data fields.
 Authors@R: c(
@@ -10,11 +10,13 @@ BugReports: https://github.com/npjc/readrbio/issues
 Encoding: UTF-8
 Depends: 
     R (>= 3.2.0)
-License: GPL (>= 2)
+License: GPL-3
 LazyData: true
 Imports: 
     readr,
-    dplyr
+    dplyr,
+    magrittr
 Suggests:
-    testthat
+    testthat,
+    knitr
 VignetteBuilder: knitr

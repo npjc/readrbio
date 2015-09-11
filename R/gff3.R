@@ -10,12 +10,13 @@
 #'  # literal string
 #'  st <- "3R\treg\tbind_site\t46748\t48137\t0.499\t.\t.\tID=enr_reg_1\n"
 #'  read_gff3(st)
-#'  
+#'  \dontrun{
 #'  # local file, may be compressed
-#'  read_gff3("data-raw/file.gff3")
-#'  read_gff3("data-raw/file.gff3.gz")
+#'  read_gff3("../data-raw/file.gff3")
+#'  read_gff3("../data-raw/file.gff3.gz")
 #'  
 #'  # or you could borow an internet
+#'  }
 read_gff3 <- function(file) {
   skel_gff3(file) %>% 
     infer_skip() %>% 

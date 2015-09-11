@@ -31,11 +31,12 @@ for format details. does not handle fasta containing files.
 # literal string
  st <- "chr3R 2 37 0.13859536\\n"
  read_wig(st)
-
+ \dontrun{
  # local file, may be compressed
  read_wig("data-raw/wiggle_bedtype.wig")
  read_wig("data-raw/wiggle_bedtype.wig.gz")
 
  # or you could borow an internet
+ }
 }
 
