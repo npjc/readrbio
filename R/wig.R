@@ -4,7 +4,7 @@
 #' for format details. does not handle fasta containing files.
 #'
 #' @inheritParams readr::datasource
-#' @param type one of c("bed", "fixed", "variable"). N.B. only "bed" currently.
+#' @inheritParams skel_wig
 #' @return 4 variable tbl_df and data.frame.
 #' @export
 #' @examples
@@ -19,9 +19,7 @@
 #'  # or you could borow an internet
 #'  }
 read_wig <- function(file, type = "bed") {
-  stopifnot(type == "bed")
-  
-  skel_wig(file) %>% 
+  skel_wig(file, type) %>% 
     infr_skip() %>% 
     do_read()
 }
@@ -29,9 +27,13 @@ read_wig <- function(file, type = "bed") {
 #' make a skeleton input list for a wig file.
 #'
 #' @inheritParams readr::datasource
+#' @param type one of c("bed", "fixed", "variable"). N.B. only "bed" currently.
 #' @return input_list: a named list of arguments relevant to read_* functions.
 #' @keywords internal
-skel_wig <- function(file) {
+skel_wig <- function(file, type) {
+  type <- switch (type,
+    bed = "bed",
+    stop("type not currently supported."))
   structure(
     list(
       file = file,

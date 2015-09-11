@@ -3,6 +3,6 @@
 export("%>%")
 export(infr_seqid)
 export(read_bed)
-export(read_gff3)
+export(read_gff)
 export(read_wig)
 importFrom(magrittr,"%>%")

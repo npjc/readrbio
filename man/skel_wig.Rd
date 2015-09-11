@@ -4,7 +4,7 @@
 \alias{skel_wig}
 \title{make a skeleton input list for a wig file.}
 \usage{
-skel_wig(file)
+skel_wig(file, type)
 }
 \arguments{
 \item{file}{Either a path to a file, a connection, or literal data
@@ -17,6 +17,8 @@ skel_wig(file)
 
    Literal data is most useful for examples and tests. It must contain at
    least one new line to be recognised as data (instead of a path).}
+
+\item{type}{one of c("bed", "fixed", "variable"). N.B. only "bed" currently.}
 }
 \value{
 input_list: a named list of arguments relevant to read_* functions.

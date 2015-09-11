@@ -33,6 +33,7 @@ read_bed <- function(file, type = "bed6") {
 #' @return input_list: a named list of arguments relevant to read_* functions.
 #' @keywords internal
 skel_bed <- function(file, type) {
+  # arbitraty switch
   n_fields <- switch (type,
     bed3 = 3L,
     bed4 = 4L,
@@ -40,6 +41,7 @@ skel_bed <- function(file, type) {
     bed12 = 12L,
     stop("type not currently supported.")
   )
+  
   col_names <- c("chrom", 
                  "chromStart", 
                  "chromEnd", 

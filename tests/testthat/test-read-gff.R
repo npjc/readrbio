@@ -1,8 +1,8 @@
-context("read_gff3")
+context("read_gff")
 
 test_that("output is as expected when reading string", {
   intake <- "3R\treg\tbind_site\t46748\t48137\t0.499\t.\t.\tID=enr_reg_1\n"
-  output <- read_gff3(intake)
+  output <- read_gff(intake)
   expect <- dplyr::data_frame(seqid = "3R",
                               source = "reg",
                               type = "bind_site",
@@ -19,7 +19,7 @@ test_that("output is as expected when reading string", {
 
 test_that("output is as expected when reading file", {
   intake <- "one-data-field.gff3.gz"
-  output <- read_gff3(intake)
+  output <- read_gff(intake)
   expect <- dplyr::data_frame(seqid = "3R",
                               source = "Regions_of_sig_enrichment",
                               type = "binding_site",
@@ -38,6 +38,6 @@ test_that("empty and incorrect data fields error predictably", {
   intake <- "\n"
   intake2 <- "no-data-fields.gff3.gz"
   expect <- "only unexpected number of fields"
-  expect_error(read_gff3(intake), expect)
-  expect_error(read_gff3(intake2), expect)
+  expect_error(read_gff(intake), expect)
+  expect_error(read_gff(intake2), expect)
 })
