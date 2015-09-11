@@ -27,7 +27,7 @@ read_gff <- function(file, type = "gff3") {
 #' make a skeleton input list for a gff3 file.
 #'
 #' @inheritParams readr::datasource
-#' @param type The type of bed file. One of \code{c("gff3", "gff2", "gff1")}. 
+#' @param type The type of bed file. One of \code{c("gff3", "gff2")}. 
 #' N.B. only "gff3" currently supported.
 #' @return input_list: a named list of arguments relevant to read_* functions.
 #' @keywords internal
