@@ -1,11 +1,20 @@
 Package: readrbio
-Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1
-Date: 2015-06-18
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
-LazyData: TRUE
-Imports: readr
+Title: Useful Wrappers For Reading Common File Formats.
+Version: 0.0.0.9000
+Description: Wrappers that extend readr and functions to infer data fields.
+Authors@R: c(
+    person("Nicolas", "Coutin", , "nicolas.coutin@gmail.com", c("aut", "cre"))
+    )
+URL: https://github.com/npjc/readrbio
+BugReports: https://github.com/npjc/readrbio/issues
+Encoding: UTF-8
+Depends: 
+    R (>= 3.2.0)
+License: GPL (>= 2)
+LazyData: true
+Imports: 
+    readr,
+    dplyr
+Suggests:
+    testthat
+VignetteBuilder: knitr
