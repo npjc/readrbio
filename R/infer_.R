@@ -20,7 +20,7 @@ infer_skip <- function(.il) {
 #' @param col the column to infer and mutate if necessary.
 #' @export
 infer_seqid <- function(tbl, col = NULL) {
-  if (is.null(col)) col <- names(tbl)[1]
+  col <- col %||% names(tbl)[1]
   dots <- setNames(list(~gsub("chr", "", col)),col)
   dplyr::mutate_(tbl, .dots = dots)
 }

@@ -12,29 +12,52 @@ knitr::opts_chunk$set(
 )
 ```
 
+### readrbio
 
-`readrbio` is an R pkg that exposes some wrappers around [`readr`](https://github.com/hadley/readr) functions reading files common in biology (or at least the very small small subset that I work with most often).
+`readrbio` is an R pkg that provides some wrappers around [`readr`](https://github.com/hadley/readr) for common file formats, such as the common biological formats `.gff3`, `.wig`, and `.bed` using a consistent extension mechanism.
 
-It currently exports `r length(grep("export", readLines("NAMESPACE"), value = T))` functions:
+```{r get-pkg, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("npjc/readrbio")
+```
 
+
+
+### How it wraps
+`read_*` functions take a file, generate a a list of named inputs that fed to [readr's](https://github.com/hadley/readr) `read_delimited()`.
+
+```{r inside-read-gff3, eval = F}
+read_gff3 <- function(file) {
+  skel_gff3(file) %>% # first generate a skeleton input list 
+    infer_skip() %>%  # modify input list by infering the correct skip argument.
+    do_read()         # call read_delimited using input list as argument.
+}
+```
+
+### What it wraps
+Pkg currently exports `r length(grep("export", readLines("NAMESPACE"), value = T))` functions:
 ```{r, echo = FALSE}
 exports <- grep("export", readLines("NAMESPACE"), value = T)
 unlist(lapply(strsplit(exports, "[(//)]"), `[`, 2))
 ```
 
-- `ls_read()` reads in multiple .gff3 or .wig files into a list of dfs (via `read_gff3()` / `read_wig()`), adds a `file_name` variable (col) with the appropriate file name, and optionally binds all the dfs row-wise (via `dplyr::bind_rows`) to create one combined df that's easier to work with.
-```{r ls-read-eg}
+The `%>%` operator is from [magrittr](https://github.com/smbache/magrittr).
+
+### Some example uses
+
+```{r read-eg}
 library(readrbio)
-p <- "./data-raw"
-ls_read(ptrn = ".gff3", path = p)
-ls_read(".gff3", p, bind_rows = F)
-```
-
-- `read_gff3()` and `read_wig()` are wrappers around `readr::read_*()` funs that have format-specific defaults and use the handy `infer_data_records()` to infer which rows are the data records based on expected number of fields. See `?infer_data_records`... it is semi-general...and might not work for you.
-
-```{r read-wig-eg}
+st <- "3R\treg\tbind_site\t46748\t48137\t0.499\t.\t.\tID=enr_reg_1\n"
+read_gff3(st)
+read_gff3("data-raw/file.gff3.gz")
+st <- "chr3R 2 37 0.13859536\n"
+read_wig(st)
 read_wig("data-raw/wiggle_bedtype.wig.gz")
-# read_gff3("data-raw/file.gff3.gz")
+# read_bed("data-raw/six_col.bed.gz") # no eg data yet.
 ```
 
-## Warning: Currently only bed-type wiggle files expected/supported!
+### how to extend:
+
+1. make a `skel_*()` that outputs named `list` that can be passed as the arguments to `do_read()`. Give it a class of `"input_list"`
+2. write necessary `infer_*()` functions to modify and or validate any intricacies to the format.
+3. test, examples, etc.
