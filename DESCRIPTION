@@ -15,5 +15,6 @@ LazyData: true
 Imports: 
     readr,
     dplyr
-Suggests: 
+Suggests:
+    testthat
 VignetteBuilder: knitr
