@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 ```
 
 [![Travis-CI Build Status](https://travis-ci.org/npjc/readrbio.svg?branch=master)](https://travis-ci.org/npjc/readrbio)
-[![Coverage Status](https://coveralls.io/repos/npjc/readrbio/badge.svg)](https://coveralls.io/r/npjc/readrbio)
+[![Coverage Status](http://codecov.io/github/npjc/readrbio/coverage.svg?branch=master)](http://codecov.io/github/npjc/readrbio?branch=master)
 
 ### readrbio
 
@@ -50,6 +50,7 @@ The `%>%` operator is from [magrittr](https://github.com/smbache/magrittr).
 
 ```{r read-eg}
 library(readrbio)
+library(dplyr)
 st <- "3R\treg\tbind_site\t46748\t48137\t0.499\t.\t.\tID=enr_reg_1\n"
 read_gff3(st)
 read_gff3("data-raw/file.gff3.gz")
