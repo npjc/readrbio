@@ -34,30 +34,10 @@ test_that("output is as expected when reading file", {
   expect_equal(nrow(output), 1)
 })
 
-test_that("empty data fields are handled predictably when reading string", {
+test_that("empty and incorrect data fields error predictably", {
   intake <- "\n"
-  output <- read_gff3(intake)
-  output_problems <- structure(list(row = 1L, col = NA_character_, expected = "9 columns", 
-                                    actual = "1 columns"), .Names = c("row", "col", "expected", 
-                                                                      "actual"), row.names = c(NA, -1L), class = c("tbl_df", "tbl", 
-                                                                                                                   "data.frame"))
-  expect_equal(length(names(output)), 9)
-  expect_equal(nrow(output), 1)
-  expect_equal(sum(is.na(output)), 9)
-  expect_warning(read_gff3(intake), "1 parsing failure")
-  expect_equal(readr::problems(output), output_problems)
-})
-
-test_that("empty data fields are handled predictably when reading file", {
-  intake <- "no-data-fields.gff3.gz"
-  output <- read_gff3(intake)
-  output_problems <- structure(list(row = 1L, col = NA_character_, expected = "9 columns", 
-                                    actual = "1 columns"), .Names = c("row", "col", "expected", 
-                                                                      "actual"), row.names = c(NA, -1L), class = c("tbl_df", "tbl", 
-                                                                                                                   "data.frame"))
-  expect_equal(length(names(output)), 9)
-  expect_equal(nrow(output), 1)
-  expect_equal(sum(is.na(output)), 9)
-  expect_warning(read_gff3(intake), "1 parsing failure")
-  expect_equal(readr::problems(output), output_problems)
+  intake2 <- "no-data-fields.gff3.gz"
+  expect <- "only unexpected number of fields"
+  expect_error(read_gff3(intake), expect)
+  expect_error(read_gff3(intake2), expect)
 })

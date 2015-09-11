@@ -1,16 +1,21 @@
 #' Infer how many rows to skip.
 #' 
-#' Infer a skip parameter by comparing the number of fields in the first 100 
+#' Infer a skip parameter by comparing the number of fields in the first n 
 #' rows to the number of data fields expected.
+#' 
 #' @param .il input_list. see \code{skel_*} functions.
+#' @param .n integer. infer using first \code{.n} lines.
 #' @keywords internal
-infer_skip <- function(.il) {
+infer_skip <- function(.il, .n = 100L) {
   stopifnot(is_input_list(.il))
-  cnts <- readr::count_fields(.il$file, .il$tokenizer, n_max = 100L)
+  cnts <- readr::count_fields(.il$file, .il$tokenizer, skip = 0L, n_max = .n)
   fields <- which(cnts == .il$n_fields)
-  if (length(fields) == 0){
-    skip <- length(cnts)
-  } else{
+  if (length(fields) == 0) {
+    stop("only unexpected number of fields found in the first ", 
+         length(cnts)," rows:\n",
+         "row: ", paste0(seq_along(cnts), collapse = ", "),"\n",
+         "cnt: ", paste0(cnts, collapse = ", "), call. = FALSE)
+  } else {
     skip <- fields[[1]] - 1
   }
   .il$skip <- skip

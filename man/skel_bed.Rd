@@ -4,7 +4,7 @@
 \alias{skel_bed}
 \title{make a skeleton input list for a bed file.}
 \usage{
-skel_bed(file)
+skel_bed(file, type)
 }
 \arguments{
 \item{file}{Either a path to a file, a connection, or literal data
@@ -17,6 +17,9 @@ skel_bed(file)
 
    Literal data is most useful for examples and tests. It must contain at
    least one new line to be recognised as data (instead of a path).}
+
+\item{type}{The type of bed file. One of
+\code{c("bed3", "bed4", "bed6", "bed12")}.}
 }
 \value{
 input_list: a named list of arguments relevant to read_* functions.

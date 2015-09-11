@@ -4,13 +4,15 @@
 \alias{infer_skip}
 \title{Infer how many rows to skip.}
 \usage{
-infer_skip(.il)
+infer_skip(.il, .n = 100L)
 }
 \arguments{
 \item{.il}{input_list. see \code{skel_*} functions.}
+
+\item{.n}{integer. infer using first \code{.n} lines.}
 }
 \description{
-Infer a skip parameter by comparing the number of fields in the first 100
+Infer a skip parameter by comparing the number of fields in the first n
 rows to the number of data fields expected.
 }
 \keyword{internal}
