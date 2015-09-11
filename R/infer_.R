@@ -7,7 +7,13 @@
 infer_skip <- function(.il) {
   stopifnot(is_input_list(.il))
   cnts <- readr::count_fields(.il$file, .il$tokenizer, n_max = 100L)
-  .il$skip <- which(cnts == .il$n_fields)[[1]] - 1
+  fields <- which(cnts == .il$n_fields)
+  if (length(fields) == 0){
+    skip <- length(cnts)
+  } else{
+    skip <- fields[[1]] - 1
+  }
+  .il$skip <- skip
   .il$n_fields <- NULL
   .il
 }
@@ -21,6 +27,8 @@ infer_skip <- function(.il) {
 #' @export
 infer_seqid <- function(tbl, col = NULL) {
   col <- col %||% names(tbl)[1]
-  dots <- setNames(list(~gsub("chr", "", col)),col)
+  dots <- setNames(list(
+    lazyeval::interp(~gsub("chr", "", var), var = as.name(col))),
+    nm = col)
   dplyr::mutate_(tbl, .dots = dots)
 }

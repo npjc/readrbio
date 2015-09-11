@@ -15,8 +15,9 @@ LazyData: true
 Imports: 
     readr,
     dplyr,
-    magrittr
-Suggests:
+    magrittr,
+    lazyeval
+Suggests: 
     testthat,
     knitr
 VignetteBuilder: knitr
