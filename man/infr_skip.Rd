@@ -4,16 +4,20 @@
 \alias{infr_skip}
 \title{Infer how many rows to skip.}
 \usage{
-infr_skip(.il, .n = 100L)
+infr_skip(.il, .n = 100L, skip_if_start = "#")
 }
 \arguments{
 \item{.il}{input_list. see \code{skel_*} functions.}
 
 \item{.n}{integer. infer using first \code{.n} lines.}
+
+\item{skip_if_start}{character. if line starts with this ignore it.}
 }
 \description{
 Infer a skip parameter by comparing the number of fields in the first n
-rows to the number of data fields expected.
+rows to the number of data fields expected. It also takes into account
+any rows that begin with a comment-type character; ignoring rows starting
+with \code{skip_if_start}
 }
 \keyword{internal}
 

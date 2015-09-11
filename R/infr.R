@@ -1,12 +1,15 @@
 #' Infer how many rows to skip.
 #' 
 #' Infer a skip parameter by comparing the number of fields in the first n 
-#' rows to the number of data fields expected.
+#' rows to the number of data fields expected. It also takes into account
+#' any rows that begin with a comment-type character; ignoring rows starting
+#' with \code{skip_if_start}
 #' 
 #' @param .il input_list. see \code{skel_*} functions.
 #' @param .n integer. infer using first \code{.n} lines.
+#' @param skip_if_start character. if line starts with this ignore it.
 #' @keywords internal
-infr_skip <- function(.il, .n = 100L) {
+infr_skip <- function(.il, .n = 100L, skip_if_start = "#") {
   stopifnot(is_input_list(.il))
   cnts <- readr::count_fields(.il$file, .il$tokenizer, skip = 0L, n_max = .n)
   fields <- which(cnts == .il$n_fields)
@@ -16,6 +19,10 @@ infr_skip <- function(.il, .n = 100L) {
          "row: ", paste0(seq_along(cnts), collapse = ", "),"\n",
          "cnt: ", paste0(cnts, collapse = ", "), call. = FALSE)
   } else {
+    lines <- readr::read_lines(.il$file, skip = 0L, n_max = .n, FALSE)
+    lines <- lines[fields]
+    keep <- which(substr(lines,0,nchar(skip_if_start)) != skip_if_start)
+    fields <- fields[keep]
     skip <- fields[[1]] - 1
   }
   .il$skip <- skip

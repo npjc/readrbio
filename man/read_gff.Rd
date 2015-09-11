@@ -18,7 +18,7 @@ read_gff(file, type = "gff3")
    Literal data is most useful for examples and tests. It must contain at
    least one new line to be recognised as data (instead of a path).}
 
-\item{type}{The type of bed file. One of \code{c("gff3", "gff2", "gff1")}.
+\item{type}{The type of bed file. One of \code{c("gff3", "gff2")}.
 N.B. only "gff3" currently supported.}
 }
 \value{

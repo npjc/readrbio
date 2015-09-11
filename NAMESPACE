@@ -3,6 +3,7 @@
 export("%>%")
 export(infr_seqid)
 export(read_bed)
+export(read_biogrid)
 export(read_gff)
 export(read_wig)
 importFrom(magrittr,"%>%")
