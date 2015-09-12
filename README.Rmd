@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/readrbio)](http://cran.r-project.org/package=readrbio)
 [![Travis-CI Build Status](https://travis-ci.org/npjc/readrbio.svg?branch=master)](https://travis-ci.org/npjc/readrbio)
 [![Coverage Status](http://codecov.io/github/npjc/readrbio/coverage.svg?branch=master)](http://codecov.io/github/npjc/readrbio?branch=master)
 
@@ -52,12 +53,13 @@ The `%>%` operator is from [magrittr](https://github.com/smbache/magrittr).
 library(readrbio)
 library(dplyr)
 st <- "3R\treg\tbind_site\t46748\t48137\t0.499\t.\t.\tID=enr_reg_1\n"
-read_gff3(st)
-read_gff3("data-raw/file.gff3.gz")
+read_gff(st)
+read_gff("data-raw/file.gff3.gz")
 st <- "chr3R 2 37 0.13859536\n"
 read_wig(st)
 read_wig("data-raw/wiggle_bedtype.wig.gz")
-# read_bed("data-raw/six_col.bed.gz") # no eg data yet.
+read_bed("data-raw/three_col.bed.gz", type = "bed3")
+read_biogrid("data-raw/BIOGRID-ORGANISM-Cavia_porcellus-3.4.128.tab2.txt.gz", type= "tab2i")
 ```
 
 ### how to extend:

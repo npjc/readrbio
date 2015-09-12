@@ -1,6 +1,7 @@
 
 
 
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/readrbio)](http://cran.r-project.org/package=readrbio)
 [![Travis-CI Build Status](https://travis-ci.org/npjc/readrbio.svg?branch=master)](https://travis-ci.org/npjc/readrbio)
 [![Coverage Status](http://codecov.io/github/npjc/readrbio/coverage.svg?branch=master)](http://codecov.io/github/npjc/readrbio?branch=master)
 
@@ -29,10 +30,11 @@ read_gff3 <- function(file) {
 ```
 
 ### What it wraps
-Pkg currently exports 5 functions:
+Pkg currently exports 6 functions:
 
 ```
-#> [1] "\"%>%\""     "infer_seqid" "read_bed"    "read_gff3"   "read_wig"
+#> [1] "\"%>%\""      "infr_seqid"   "read_bed"     "read_biogrid"
+#> [5] "read_gff"     "read_wig"
 ```
 
 The `%>%` operator is from [magrittr](https://github.com/smbache/magrittr).
@@ -55,13 +57,13 @@ library(dplyr)
 #> 
 #>     intersect, setdiff, setequal, union
 st <- "3R\treg\tbind_site\t46748\t48137\t0.499\t.\t.\tID=enr_reg_1\n"
-read_gff3(st)
+read_gff(st)
 #> Source: local data frame [1 x 9]
 #> 
 #>   seqid source      type start   end score strand phase   attributes
 #>   (chr)  (chr)     (chr) (int) (int) (dbl)  (chr) (chr)        (chr)
 #> 1    3R    reg bind_site 46748 48137 0.499      .     . ID=enr_reg_1
-read_gff3("data-raw/file.gff3.gz")
+read_gff("data-raw/file.gff3.gz")
 #> Source: local data frame [3,956 x 9]
 #> 
 #>    seqid                    source         type  start    end     score
@@ -101,7 +103,41 @@ read_wig("data-raw/wiggle_bedtype.wig.gz")
 #> 9  chr3R   316   351 0.17232764
 #> 10 chr3R   359   394 0.08178642
 #> ..   ...   ...   ...        ...
-# read_bed("data-raw/six_col.bed.gz") # no eg data yet.
+read_bed("data-raw/three_col.bed.gz", type = "bed3")
+#> Source: local data frame [100 x 3]
+#> 
+#>    chrom chromStart chromEnd
+#>    (chr)      (int)    (int)
+#> 1     2L       4987    12520
+#> 2     2L      12563    13611
+#> 3     2L      45683    47674
+#> 4     2L      52439    53610
+#> 5     2L      65596    67529
+#> 6     2L     158335   160045
+#> 7     2L     160063   162548
+#> 8     2L     592153   598240
+#> 9     2L     601806   603128
+#> 10    2L     681408   683196
+#> ..   ...        ...      ...
+read_biogrid("data-raw/BIOGRID-ORGANISM-Cavia_porcellus-3.4.128.tab2.txt.gz", type= "tab2i")
+#> Source: local data frame [6 x 24]
+#> 
+#>   biogrid_interaction_id a.entrez_gene_id b.entrez_gene_id a.biogrid_id
+#>                    (int)            (int)            (int)        (int)
+#> 1                 685105        100322881        100135616      1642458
+#> 2                 685106        100322881        100135616      1642458
+#> 3                 697149        100725041        100716985      1655073
+#> 4                 697150        100725041        100716985      1655073
+#> 5                 860219             2288        100135583       108578
+#> 6                 932284          8617413        100322881      1242416
+#> Variables not shown: b.biogrid_id (int), a.systematic_name (chr),
+#>   b.systematic_name (chr), a.official_symbol (chr), b.official_symbol
+#>   (chr), a.synonyms (chr), b.synonyms (chr), experimental_system_name
+#>   (chr), experimental_system_type (chr), first_author_surname (chr),
+#>   pubmed_id (int), a.organism_id (int), b.organism_id (int),
+#>   interaction_throughput (chr), quantitative_score (dbl),
+#>   post_translational_modification (chr), phenotypes (chr), qualifications
+#>   (chr), tags (chr), source_database (chr)
 ```
 
 ### how to extend:
