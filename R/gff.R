@@ -1,7 +1,8 @@
 #' read in a gff(3) file
 #'
 #' see \url{http://gmod.org/wiki/GFF3} for format details. does not handle fasta
-#' containing files.
+#' containing files. For GFF2 spec see: 
+#' \url{http://www.sanger.ac.uk/resources/software/gff/spec.html#t_2}. 
 #'
 #' @inheritParams readr::datasource
 #' @inheritParams skel_gff
