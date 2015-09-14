@@ -1,29 +1,18 @@
 #' Read a delimited file from a file specification
 #'
-#' @inheritParams infr_skip
+#' @inheritParams readr::datasource
+#' @inheritParams fspec
+#' @examples
+#' \dontrun{
+#'  read_fspec(file = "data-raw/three_col.bed.gz", bed_bed3)
+#'  }
 #' @export
-do_read <- function(file_spec) {
-  stopifnot(is.file_spec(file_spec))
-  complete_spec <- complete_spec(file_spec)
-  do.call(readr:::read_delimited, complete_spec)
-}
-
-#' complete a file specification with any unset defaults
-#' @inheritParams infr_skip
-complete_spec <- function(file_spec) {
-  rd_args <- list(file = NULL,
-                   tokenizer = NULL,
-                   col_names = TRUE,
-                   col_types = NULL,
-                   locale = readr::default_locale(),
-                   skip = 0,
-                   n_max = -1L,
-                   progress = interactive())
-  needed <- setdiff(names(rd_args), names(file_spec))
-  c(rd_args[needed], file_spec)
-}
-
-do_read2 <- function(file_spec) {
-  stopifnot(is.file_pec(file_spec))
-  purrr::lift_dl(readr:::read_delimited)(file_spec)
+read_fspec <- function(file, .fspec, .f = readr::read_delim, infr_skip = TRUE) {
+  stopifnot(is.fspec(.fspec))
+  stopifnot(is.function(.f))
+  fspec <- .fspec
+  fspec$file <- file
+  if (infr_skip)
+    fspec <- infr_skip(fspec, .n = 100L, skip_if_start = "#")
+  purrr::lift_dl(.f)(fspec)
 }

@@ -8,15 +8,15 @@ Authors@R: c(
 URL: https://github.com/npjc/readrbio
 BugReports: https://github.com/npjc/readrbio/issues
 Encoding: UTF-8
-Depends: 
+Depends:
     R (>= 3.2.0)
 License: GPL-3
 LazyData: true
-Imports: 
+Imports:
     readr,
     magrittr,
-    dplyr
-Suggests: 
+    purrr
+Suggests:
     testthat,
     knitr
 VignetteBuilder: knitr

@@ -4,10 +4,10 @@
 \alias{infr_skip}
 \title{Infer how many rows to skip.}
 \usage{
-infr_skip(file_spec, .n = 100L, skip_if_start = "#")
+infr_skip(.fspec, .n = 100L, skip_if_start = "#")
 }
 \arguments{
-\item{file_spec}{(named list) forming a file specification.}
+\item{.fspec}{(named list) forming a file specification.}
 
 \item{.n}{integer. infer using first \code{.n} lines.}
 

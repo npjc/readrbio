@@ -10,14 +10,17 @@
 #' @usage lhs \%>\% rhs
 NULL
 
-# b is a is null
-`%||%` <- function(a, b) if (!is.null(a)) a else b
-
-# it object exists get it otherwise err.
-try_get <- function(x, err = stop("err does not exist.")) {
-  if (!exists(x))
-    err
-  get(x)
+# readr collector functions shorthand
+col <- function(x) {
+  x <- unlist(strsplit(x,""))
+  lapply(x, function(x) {
+    switch(x,
+           c = readr::col_character(),
+           i = readr::col_integer(),
+           d = readr::col_double(),
+           n = readr::col_number(),
+           l = readr::col_logical(),
+           f = readr::col_factor(),
+           s = readr::col_skip())
+  })
 }
-
-

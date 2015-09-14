@@ -4,16 +4,15 @@
 #' format details.
 #'
 #' @format Tab-delimited file format from BioGRID.
-spec_biogrid <- function() {
-  list(
-    tokenizer = readr::tokenizer_delim('\t', na = '-')
-  )
+biogrid <- function() {
+  fspec("biogrid", fspec_delim(), list(delim = '\t',
+                                       na = c('-', "NA")))
 }
 
 # subtypes ----------------------------------------------------------------
 
-spec_biogrid_tab2i <- function() {
-  list(
+biogrid_tab2i <- function() {
+  fspec("tab2i", biogrid(), list(
     col_names = c(
       "biogrid_interaction_id",
       "a.entrez_gene_id",
@@ -41,11 +40,11 @@ spec_biogrid_tab2i <- function() {
       "source_database"
     ),
     col_types = col("iiiiiccccccccciiicdccccc")
-  )
+  ))
 }
 
-spec_biogrid_tab2c <- function() {
-  list(
+biogrid_tab2c <- function() {
+  fspec("tab2c", biogrid(), list(
     col_names = c(
       "biogrid_complex_id",
       "entrez_gene_id",
@@ -72,5 +71,5 @@ spec_biogrid_tab2c <- function() {
       "source_database"
     ),
     col_types = col("iiicccccciciccdcccccccc")
-  )
+  ))
 }
