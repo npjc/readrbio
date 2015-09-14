@@ -28,17 +28,25 @@ devtools::install_github("npjc/readrbio")
 
 
 ### How it wraps
-`read_*` functions take a file, generate a a list of named inputs that fed to [readr's](https://github.com/hadley/readr) `read_delimited()`.
+`readrbio` is centered around `file_spec`ifications. This is simply a named list with a standard set of parameters. Specifically, the some or all of formals (arguments) for [readr's](https://github.com/hadley/readr) `read_delimited()`.
 
-```{r inside-read-gff3, eval = F}
-read_gff3 <- function(file) {
-  skel_gff3(file) %>% # first generate a skeleton input list 
-    infer_skip() %>%  # modify input list by infering the correct skip argument.
-    do_read()         # call read_delimited using input list as argument.
-}
+```{r file-spec}
+library(readrbio)
+file <- "my-file.tab2"
+spec(file, type = "biogrid", "tab2i")
+file <- "my-other-file.gff3"
+spec(file, "gff", "gff3")
 ```
 
-### What it wraps
+You can then modify a file spec with `infr_*` functions. For example, `infr_skip()`
+will figure out how many rows to skip based on the expected number of fields and by ignoring rows that start with a certain pattern (`"#"` by default). The resulting modified `file_spec` is passed onto `do_read()` which will read in the file according to its specification, filling in any unspecified arguments with defaults if need be.
+```{r infr-skip, eval=FALSE}
+spec(file, "gff", "gff3") %>% 
+  infr_skip() %>% 
+  do_read()
+```
+
+### Exported
 Pkg currently exports `r length(grep("export", readLines("NAMESPACE"), value = T))` functions:
 ```{r, echo = FALSE}
 exports <- grep("export", readLines("NAMESPACE"), value = T)
@@ -46,24 +54,3 @@ unlist(lapply(strsplit(exports, "[(//)]"), `[`, 2))
 ```
 
 The `%>%` operator is from [magrittr](https://github.com/smbache/magrittr).
-
-### Some example uses
-
-```{r read-eg}
-library(readrbio)
-library(dplyr)
-st <- "3R\treg\tbind_site\t46748\t48137\t0.499\t.\t.\tID=enr_reg_1\n"
-read_gff(st)
-read_gff("data-raw/file.gff3.gz")
-st <- "chr3R 2 37 0.13859536\n"
-read_wig(st)
-read_wig("data-raw/wiggle_bedtype.wig.gz")
-read_bed("data-raw/three_col.bed.gz", type = "bed3")
-read_biogrid("data-raw/BIOGRID-ORGANISM-Cavia_porcellus-3.4.128.tab2.txt.gz", type= "tab2i")
-```
-
-### how to extend:
-
-1. make a `skel_*()` that outputs named `list` that can be passed as the arguments to `do_read()`. Give it a class of `"input_list"`
-2. write necessary `infer_*()` functions to modify and or validate any intricacies to the format.
-3. test, examples, etc.

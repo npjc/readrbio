@@ -18,130 +18,81 @@ devtools::install_github("npjc/readrbio")
 
 
 ### How it wraps
-`read_*` functions take a file, generate a a list of named inputs that fed to [readr's](https://github.com/hadley/readr) `read_delimited()`.
-
-
-```r
-read_gff3 <- function(file) {
-  skel_gff3(file) %>% # first generate a skeleton input list 
-    infer_skip() %>%  # modify input list by infering the correct skip argument.
-    do_read()         # call read_delimited using input list as argument.
-}
-```
-
-### What it wraps
-Pkg currently exports 6 functions:
-
-```
-#> [1] "\"%>%\""      "infr_seqid"   "read_bed"     "read_biogrid"
-#> [5] "read_gff"     "read_wig"
-```
-
-The `%>%` operator is from [magrittr](https://github.com/smbache/magrittr).
-
-### Some example uses
+`readrbio` is centered around `file_spec`ifications. This is simply a named list with a standard set of parameters. Specifically, the some or all of formals (arguments) for [readr's](https://github.com/hadley/readr) `read_delimited()`.
 
 
 ```r
 library(readrbio)
-#> Beginner developer minions about. Be on the lookout.
-library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> 
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> 
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
-st <- "3R\treg\tbind_site\t46748\t48137\t0.499\t.\t.\tID=enr_reg_1\n"
-read_gff(st)
-#> Source: local data frame [1 x 9]
-#> 
-#>   seqid source      type start   end score strand phase   attributes
-#>   (chr)  (chr)     (chr) (int) (int) (dbl)  (chr) (chr)        (chr)
-#> 1    3R    reg bind_site 46748 48137 0.499      .     . ID=enr_reg_1
-read_gff("data-raw/file.gff3.gz")
-#> Source: local data frame [3,956 x 9]
-#> 
-#>    seqid                    source         type  start    end     score
-#>    (chr)                     (chr)        (chr)  (int)  (int)     (dbl)
-#> 1     3R Regions_of_sig_enrichment binding_site  46748  48137 0.4996189
-#> 2     3R Regions_of_sig_enrichment binding_site  53729  56570 1.0976743
-#> 3     3R Regions_of_sig_enrichment binding_site  59267  61693 0.9144886
-#> 4     3R Regions_of_sig_enrichment binding_site  62055  63846 0.7766093
-#> 5     3R Regions_of_sig_enrichment binding_site  64851  66430 0.4774212
-#> 6     3R Regions_of_sig_enrichment binding_site  66787  67918 0.3644389
-#> 7     3R Regions_of_sig_enrichment binding_site 133238 134639 0.9413324
-#> 8     3R Regions_of_sig_enrichment binding_site 185631 187089 0.9109565
-#> 9     3R Regions_of_sig_enrichment binding_site 200867 201974 0.5903201
-#> 10    3R Regions_of_sig_enrichment binding_site 204287 205678 0.8156522
-#> ..   ...                       ...          ...    ...    ...       ...
-#> Variables not shown: strand (chr), phase (chr), attributes (chr)
-st <- "chr3R 2 37 0.13859536\n"
-read_wig(st)
-#> Source: local data frame [1 x 4]
-#> 
-#>   seqid start   end     score
-#>   (chr) (int) (int)     (dbl)
-#> 1 chr3R     2    37 0.1385954
-read_wig("data-raw/wiggle_bedtype.wig.gz")
-#> Source: local data frame [100 x 4]
-#> 
-#>    seqid start   end      score
-#>    (chr) (int) (int)      (dbl)
-#> 1  chr3R     2    37 0.13859536
-#> 2  chr3R    41    76 0.14651860
-#> 3  chr3R    81   116 0.15454514
-#> 4  chr3R   120   155 0.16429267
-#> 5  chr3R   158   193 0.18398379
-#> 6  chr3R   197   232 0.23120311
-#> 7  chr3R   237   272 0.26822898
-#> 8  chr3R   276   311 0.24709969
-#> 9  chr3R   316   351 0.17232764
-#> 10 chr3R   359   394 0.08178642
-#> ..   ...   ...   ...        ...
-read_bed("data-raw/three_col.bed.gz", type = "bed3")
-#> Source: local data frame [100 x 3]
-#> 
-#>    chrom chromStart chromEnd
-#>    (chr)      (int)    (int)
-#> 1     2L       4987    12520
-#> 2     2L      12563    13611
-#> 3     2L      45683    47674
-#> 4     2L      52439    53610
-#> 5     2L      65596    67529
-#> 6     2L     158335   160045
-#> 7     2L     160063   162548
-#> 8     2L     592153   598240
-#> 9     2L     601806   603128
-#> 10    2L     681408   683196
-#> ..   ...        ...      ...
-read_biogrid("data-raw/BIOGRID-ORGANISM-Cavia_porcellus-3.4.128.tab2.txt.gz", type= "tab2i")
-#> Source: local data frame [6 x 24]
-#> 
-#>   biogrid_interaction_id a.entrez_gene_id b.entrez_gene_id a.biogrid_id
-#>                    (int)            (int)            (int)        (int)
-#> 1                 685105        100322881        100135616      1642458
-#> 2                 685106        100322881        100135616      1642458
-#> 3                 697149        100725041        100716985      1655073
-#> 4                 697150        100725041        100716985      1655073
-#> 5                 860219             2288        100135583       108578
-#> 6                 932284          8617413        100322881      1242416
-#> Variables not shown: b.biogrid_id (int), a.systematic_name (chr),
-#>   b.systematic_name (chr), a.official_symbol (chr), b.official_symbol
-#>   (chr), a.synonyms (chr), b.synonyms (chr), experimental_system_name
-#>   (chr), experimental_system_type (chr), first_author_surname (chr),
-#>   pubmed_id (int), a.organism_id (int), b.organism_id (int),
-#>   interaction_throughput (chr), quantitative_score (dbl),
-#>   post_translational_modification (chr), phenotypes (chr), qualifications
-#>   (chr), tags (chr), source_database (chr)
+#> Beginner minions about. Be on the lookout.
+file <- "my-file.tab2"
+spec(file, type = "biogrid", "tab2i")
+#> <file spec>
+#>   type:      biogrid
+#>   subtype:   tab2i
+#>   variables: 24
+#>   delimiter: '\t'
+#>   skip:      <NULL>
+#>   n_max:     <NULL>
+#> <variable spec>
+#>   $ biogrid_interaction_id           collector_integer
+#>   $ a.entrez_gene_id                 collector_integer
+#>   $ b.entrez_gene_id                 collector_integer
+#>   $ a.biogrid_id                     collector_integer
+#>   $ b.biogrid_id                     collector_integer
+#>   $ a.systematic_name                collector_character
+#>   $ b.systematic_name                collector_character
+#>   $ a.official_symbol                collector_character
+#>   $ b.official_symbol                collector_character
+#>   $ a.synonyms                       collector_character
+#>   $ b.synonyms                       collector_character
+#>   $ experimental_system_name         collector_character
+#>   $ experimental_system_type         collector_character
+#>   $ first_author_surname             collector_character
+#>   $ pubmed_id                        collector_integer
+#>   $ a.organism_id                    collector_integer
+#>   $ b.organism_id                    collector_integer
+#>   $ interaction_throughput           collector_character
+#>   $ quantitative_score               collector_double
+#>   $ post_translational_modification  collector_character
+#>   $ phenotypes                       collector_character
+#>   $ qualifications                   collector_character
+#>   $ tags                             collector_character
+#>   $ source_database                  collector_character
+file <- "my-other-file.gff3"
+spec(file, "gff", "gff3")
+#> <file spec>
+#>   type:      gff
+#>   subtype:   gff3
+#>   variables: 9
+#>   delimiter: '\t'
+#>   skip:      <NULL>
+#>   n_max:     <NULL>
+#> <variable spec>
+#>   $ seqid       collector_character
+#>   $ source      collector_character
+#>   $ type        collector_character
+#>   $ start       collector_integer
+#>   $ end         collector_integer
+#>   $ score       collector_double
+#>   $ strand      collector_character
+#>   $ phase       collector_character
+#>   $ attributes  collector_character
 ```
 
-### how to extend:
+You can then modify a file spec with `infr_*` functions. For example, `infr_skip()`
+will figure out how many rows to skip based on the expected number of fields and by ignoring rows that start with a certain pattern (`"#"` by default). The resulting modified `file_spec` is passed onto `do_read()` which will read in the file according to its specification, filling in any unspecified arguments with defaults if need be.
 
-1. make a `skel_*()` that outputs named `list` that can be passed as the arguments to `do_read()`. Give it a class of `"input_list"`
-2. write necessary `infer_*()` functions to modify and or validate any intricacies to the format.
-3. test, examples, etc.
+```r
+spec(file, "gff", "gff3") %>% 
+  infr_skip() %>% 
+  do_read()
+```
+
+### Exported
+Pkg currently exports 4 functions:
+
+```
+#> [1] "\"%>%\""   "do_read"   "infr_skip" "spec"
+```
+
+The `%>%` operator is from [magrittr](https://github.com/smbache/magrittr).
