@@ -22,3 +22,8 @@ complete_spec <- function(file_spec) {
   needed <- setdiff(names(rd_args), names(file_spec))
   c(rd_args[needed], file_spec)
 }
+
+do_read2 <- function(file_spec) {
+  stopifnot(is.file_pec(file_spec))
+  purrr::lift_dl(readr:::read_delimited)(file_spec)
+}
