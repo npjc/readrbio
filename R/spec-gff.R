@@ -7,14 +7,27 @@
 #' @format Tab-delimited genomic interval file.
 spec_gff <- function() {
   list(
-    tokenizer = readr::tokenizer_delim('\t')
+    tokenizer = readr::tokenizer_delim('\t', na = '.')
   )
 }
 
 # subtypes ----------------------------------------------------------------
 
 spec_gff_gff2 <- function() {
-  list()
+  list(
+    col_names = c(
+      "seqname",
+      "source",
+      "feature",
+      "start",
+      "end",
+      "score",
+      "strand",
+      "frame",
+      "attribute"
+    ),
+    col_types = col("ccciidccc")
+  )
 }
 
 spec_gff_gff3 <- function() {
