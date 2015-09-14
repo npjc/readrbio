@@ -4,10 +4,10 @@
 \alias{infr_skip}
 \title{Infer how many rows to skip.}
 \usage{
-infr_skip(.il, .n = 100L, skip_if_start = "#")
+infr_skip(file_spec, .n = 100L, skip_if_start = "#")
 }
 \arguments{
-\item{.il}{input_list. see \code{skel_*} functions.}
+\item{file_spec}{(named list) forming a file specification.}
 
 \item{.n}{integer. infer using first \code{.n} lines.}
 
@@ -19,5 +19,4 @@ rows to the number of data fields expected. It also takes into account
 any rows that begin with a comment-type character; ignoring rows starting
 with \code{skip_if_start}
 }
-\keyword{internal}
 

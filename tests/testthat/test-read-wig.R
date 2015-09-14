@@ -1,5 +1,11 @@
 context("read_wig")
 
+read_wig <- function(file) {
+  spec(file, "wig", "bed") %>%
+    infr_skip() %>%
+    do_read()
+}
+
 test_that("output is as expected when reading string", {
   intake <- "chr3R 2 37 0.138595358054898\n"
   output <- read_wig(intake)

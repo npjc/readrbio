@@ -1,5 +1,11 @@
 context("read_bed")
 
+read_bed <- function(file, subtype = "bed6") {
+  spec(file, "bed", subtype) %>%
+    infr_skip() %>%
+    do_read()
+}
+
 test_that("output is as expected when reading string", {
   intake <- "chr3R\t2\t37\n"
   output <- read_bed(intake, "bed3")

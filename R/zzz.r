@@ -2,7 +2,9 @@
 #'
 #' @section Formats of interest:
 #' \itemize{
-#'  \item GFF3
+#'  \item BED
+#'  \item BIOGRID
+#'  \item GFF
 #'  \item WIG
 #' }
 #' @docType package
@@ -10,6 +12,6 @@
 NULL
 
 .onAttach <- function(...) {
-  packageStartupMessage("Beginner developer minions about. ",
+  packageStartupMessage("Beginner minions about. ",
                         "Be on the lookout. ")
 }

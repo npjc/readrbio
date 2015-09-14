@@ -1,5 +1,11 @@
 context("read_gff")
 
+read_gff <- function(file) {
+  spec(file, "gff", "gff3") %>%
+    infr_skip() %>%
+    do_read()
+}
+
 test_that("output is as expected when reading string", {
   intake <- "3R\treg\tbind_site\t46748\t48137\t0.499\t.\t.\tID=enr_reg_1\n"
   output <- read_gff(intake)

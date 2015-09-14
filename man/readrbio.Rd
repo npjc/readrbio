@@ -11,7 +11,9 @@ Convenience functions for reading biological file formats.
 \section{Formats of interest}{
 
 \itemize{
- \item GFF3
+ \item BED
+ \item BIOGRID
+ \item GFF
  \item WIG
 }
 }
